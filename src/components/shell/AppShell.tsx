@@ -83,6 +83,9 @@ function InnerShell({ children }: { children: React.ReactNode }) {
           <NavbarMenuItem href="/" asChild>
             <Link href="/">{t(locale, "navHome")}</Link>
           </NavbarMenuItem>
+          <NavbarMenuItem href="/tanya" asChild>
+            <Link href="/tanya">{t(locale, "navAsk")}</Link>
+          </NavbarMenuItem>
           <NavbarMenuItem href="/workspace" asChild>
             <Link href="/workspace">{t(locale, "navWorkspace")}</Link>
           </NavbarMenuItem>

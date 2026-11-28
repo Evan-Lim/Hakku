@@ -11,6 +11,10 @@ import { t } from "@/lib/i18n/dictionary";
 import { DEMO_SCENARIOS } from "@/data/demo-scenarios";
 import {
   ArrowRight,
+  ArrowUp,
+  ChevronDown,
+  Mic,
+  Paperclip,
   Briefcase,
   Building2,
   FileCheck2,
@@ -19,6 +23,12 @@ import {
   Sparkles,
   UserCheck,
 } from "lucide-react";
+
+const HOME_SAMPLES = [
+  "我做兼职，时薪RM7.50，这个月80小时，老板排班",
+  "Grab gantung akaun saya 19 hari, purata RM110 sehari",
+  "Gaji pokok saya RM1,800, buat OT 20 jam tapi dapat RM100 je",
+];
 
 export default function HomePage() {
   const router = useRouter();
@@ -30,6 +40,14 @@ export default function HomePage() {
     digitalIdProfile,
   } = useHakku();
 
+  const [ask, setAsk] = React.useState("");
+  const [showMore, setShowMore] = React.useState(false);
+  const askHakku = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const q = ask.trim();
+    router.push(q ? `/tanya?q=${encodeURIComponent(q)}` : "/tanya");
+  };
+
   const launchPersona = (role: "freelancer" | "sme" | "worker", scenarioId?: string) => {
     setPersona(role);
     if (scenarioId) {
@@ -40,6 +58,120 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-8 md:px-6 md:py-12">
+      {/* Hakku home: one box first, everything else behind "More tools" */}
+      <section className="mx-auto flex max-w-xl flex-col items-center pt-6 text-center">
+        <div className="hk-pop relative h-[84px] w-[84px]">
+          <span className="hk-ring absolute inset-0 rounded-3xl bg-[#BFDBFE]" />
+          <span className="absolute inset-0 flex items-center justify-center rounded-3xl bg-[#2563EB]">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
+              <path className="hk-draw" d="M8.5 12l2.5 2.5 4.5-5" />
+            </svg>
+          </span>
+        </div>
+        <h1 className="hk-in hk-d1 mb-2.5 mt-7 font-body text-[40px] font-bold leading-tight tracking-tight text-txt-black-900 md:text-[44px]">
+          {locale === "bm" ? "Hai, Malaysia" : "Hello, Malaysia"}
+        </h1>
+        <p className="hk-in hk-d2 mb-7 max-w-md text-body-lg text-txt-black-700">
+          {locale === "bm"
+            ? "Gaji, kontrak, bayaran dan tuntutan. Ceritakan kepada Hakku apa yang berlaku."
+            : "Pay, contracts, payouts and claims. Tell Hakku what happened."}
+        </p>
+        <form
+          onSubmit={askHakku}
+          className="hk-in hk-d3 flex w-full flex-col gap-2 rounded-[22px] border border-otl-gray-200 bg-bg-white py-3.5 pl-[18px] pr-3.5 text-left shadow-[0_18px_40px_-26px_rgba(15,23,42,.45)]"
+        >
+          <label htmlFor="home-ask" className="sr-only">
+            {locale === "bm" ? "Ceritakan apa yang berlaku" : "Describe what happened"}
+          </label>
+          <textarea
+            id="home-ask"
+            rows={2}
+            value={ask}
+            onChange={(e) => setAsk(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                askHakku(e);
+              }
+            }}
+            placeholder={locale === "bm" ? "cth. Boss tak bayar OT saya bulan ni…" : "e.g. Boss tak bayar OT saya bulan ni…"}
+            className="min-h-[52px] resize-none bg-transparent py-1 text-[17px] text-txt-black-900 outline-none"
+          />
+          <div className="flex items-center gap-1">
+            <span className="flex-1 text-body-xs text-txt-black-500">
+              {locale === "bm" ? "BM, English, 中文, தமிழ் atau campur" : "BM, English, 中文, தமிழ் or a mix"}
+            </span>
+            <button
+              type="button"
+              onClick={() => router.push("/workspace")}
+              aria-label={locale === "bm" ? "Lampirkan gambar atau dokumen" : "Attach a photo or document"}
+              className="flex h-11 w-11 items-center justify-center rounded-full text-txt-black-500 hover:bg-bg-washed"
+            >
+              <Paperclip className="h-[19px] w-[19px]" />
+            </button>
+            <button
+              type="button"
+              onClick={() => router.push("/tanya?mic=1")}
+              aria-label={locale === "bm" ? "Cakap" : "Speak"}
+              className="flex h-11 w-11 items-center justify-center rounded-full text-txt-black-500 hover:bg-bg-washed"
+            >
+              <Mic className="h-[19px] w-[19px]" />
+            </button>
+            <button
+              type="submit"
+              aria-label={locale === "bm" ? "Hantar" : "Send"}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#2563EB] text-white"
+            >
+              <ArrowUp className="h-[18px] w-[18px]" strokeWidth={2.4} />
+            </button>
+          </div>
+        </form>
+        <div className="hk-in hk-d3 mt-3 flex w-full flex-wrap justify-center gap-2 text-body-xs text-txt-black-500">
+          <span className="self-center">{locale === "bm" ? "Cuba:" : "Try:"}</span>
+          {HOME_SAMPLES.map((sample) => (
+            <button
+              key={sample}
+              type="button"
+              onClick={() => router.push(`/tanya?q=${encodeURIComponent(sample)}`)}
+              className="min-h-10 max-w-full rounded-full border border-otl-gray-200 bg-bg-white px-3 py-1.5 text-left text-txt-black-900 hover:border-otl-primary-300"
+            >
+              {sample}
+            </button>
+          ))}
+        </div>
+        <div className="hk-in hk-d4 my-5 flex w-full items-center gap-3 text-body-xs text-txt-black-500">
+          <span className="h-px flex-1 bg-otl-gray-200" />
+          {locale === "bm" ? "atau" : "or"}
+          <span className="h-px flex-1 bg-otl-gray-200" />
+        </div>
+        <button
+          type="button"
+          onClick={() => router.push("/workspace")}
+          className="hk-in hk-d4 min-h-14 w-full rounded-2xl border-2 border-[#2563EB] text-[17px] font-semibold text-txt-primary hover:bg-bg-primary-50"
+        >
+          {locale === "bm" ? "Semak langkah demi langkah" : "Check step by step"}
+        </button>
+        <div className="hk-in hk-d5 mt-5 flex flex-wrap justify-center gap-x-4 gap-y-2 text-body-xs text-txt-black-500">
+          <span>✓ {locale === "bm" ? "Tak perlu daftar" : "No sign-up needed"}</span>
+          <span>✓ {locale === "bm" ? "Jumlah ikut undang-undang" : "Amounts follow the law"}</span>
+          <span>✓ {locale === "bm" ? "No. IC & akaun bank disembunyikan" : "IC & bank numbers hidden"}</span>
+        </div>
+        <button
+          type="button"
+          onClick={() => setShowMore((v) => !v)}
+          aria-expanded={showMore}
+          className="hk-in hk-d5 mt-8 inline-flex min-h-11 items-center gap-2 rounded-full border border-otl-gray-200 px-4 text-body-sm font-semibold text-txt-black-700 hover:bg-bg-washed"
+        >
+          {showMore
+            ? locale === "bm" ? "Sembunyikan alat tambahan" : "Hide more tools"
+            : locale === "bm" ? "Alat tambahan untuk pengguna mahir" : "More tools for power users"}
+          <ChevronDown className={`h-4 w-4 transition-transform ${showMore ? "rotate-180" : ""}`} />
+        </button>
+      </section>
+
+      {showMore && (
+      <div className="mt-10">
       {/* MYDS 12-8-4 Hero Grid */}
       <section className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12 lg:items-center">
         <div className="col-span-4 space-y-5 md:col-span-8 lg:col-span-7">
@@ -340,6 +472,8 @@ export default function HomePage() {
           </CalloutContent>
         </Callout>
       </section>
+      </div>
+      )}
     </div>
   );
 }

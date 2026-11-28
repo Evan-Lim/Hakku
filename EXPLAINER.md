@@ -1,3 +1,4 @@
+
 # Hakku — System, Law & Architecture Explainer
 
 **Hakku** (*"Hak-ku"* — My Rights & Responsibilities) is Malaysia's Sovereign AI compliance companion designed for **freelance business owners, full-time SME business owners, and workers**.

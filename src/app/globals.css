@@ -36,3 +36,17 @@
     display: none !important;
   }
 }
+
+/* Hakku entry animations (from the UI/UX design) */
+@keyframes hkIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes hkPop { 0% { opacity: 0; transform: scale(.6); } 70% { transform: scale(1.08); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes hkPulse { 0% { transform: scale(1); opacity: .5; } 100% { transform: scale(1.8); opacity: 0; } }
+@keyframes hkDraw { to { stroke-dashoffset: 0; } }
+.hk-in { animation: hkIn .5s cubic-bezier(.2,.8,.2,1) both; }
+.hk-d1 { animation-delay: .08s; } .hk-d2 { animation-delay: .16s; } .hk-d3 { animation-delay: .24s; } .hk-d4 { animation-delay: .32s; } .hk-d5 { animation-delay: .4s; }
+.hk-pop { animation: hkPop .6s cubic-bezier(.2,.8,.2,1) both; }
+.hk-ring { animation: hkPulse 2.2s ease-out infinite; }
+.hk-draw { stroke-dasharray: 24; stroke-dashoffset: 24; animation: hkDraw .7s .5s ease forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .hk-in, .hk-pop, .hk-ring, .hk-draw { animation: none; stroke-dashoffset: 0; }
+}

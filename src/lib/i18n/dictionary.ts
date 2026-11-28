@@ -7,6 +7,7 @@ export const DICTIONARY: Record<AppLocale, Record<string, string>> = {
     announceBanner:
       "Hackathon Prototype · Sovereign AI powered by YTL ILMU · MyDigital ID & Official Portal Sandbox Ready",
     navHome: "Overview",
+    navAsk: "Ask Hakku",
     navWorkspace: "Compliance Hub",
     navPortals: "Official Portal Mirrors",
     navVision: "MyDigital ID Vision",
@@ -40,6 +41,7 @@ export const DICTIONARY: Record<AppLocale, Record<string, string>> = {
     announceBanner:
       "Prototip Hackathon · AI Berdaulat oleh YTL ILMU · Sedia Simulasi MyDigital ID & Portal Rasmi",
     navHome: "Utama",
+    navAsk: "Tanya Hakku",
     navWorkspace: "Hab Pematuhan",
     navPortals: "Simulasi Portal Rasmi",
     navVision: "Visi MyDigital ID",
